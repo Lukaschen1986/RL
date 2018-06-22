@@ -105,5 +105,5 @@ for epoch in range(1,6):
         
         if done:
             break
-    state = new_state
+        state = new_state
 env.close()
