@@ -4,15 +4,14 @@ import pandas as pd
 from maze_env import Maze
 
 #action_space = ['u', 'd', 'r', 'l']
-
 env = Maze()
 actions = list(range(env.n_actions)) # a list
 Q_table = pd.DataFrame(columns=actions, dtype=np.float64)
-alpha=0.5 # learning_rate
-gamma=0.9 # discount
+alpha=0.9 # learning_rate
+gamma=0.5 # discount
 eps=0.5 # greedy
 decay_rate=0.01
-epoch = 1
+#epoch = 1
 
 def check_state_exist(state, Q_table, actions):
     if state not in Q_table.index:
@@ -49,17 +48,29 @@ def execute_action(state, action, reward, state_next, gamma, alpha, Q_table):
     Q_table.loc[state, action] = Q # rewrite Q to q_table
     return Q_table
 
+global_rewards = []
 for epoch in range(1,101):
     state = env.reset()
     state = str(state)
-        
+    local_rewards = 0
+    
     while True:
         env.render()
         action, Q_table, eps = choose_action(state, actions, eps, decay_rate, epoch, Q_table)
         state_next, reward, done = env.step(action)
+        local_rewards += reward
         state_next = str(state_next)
         Q_table = execute_action(state, action, reward, state_next, gamma, alpha, Q_table)
         state = state_next
         
         if done:
             break
+    
+    global_rewards.append(local_rewards)
+    print("epoch: " + str(epoch))
+
+print ("Score over time: " +  str(sum(global_rewards)/epoch))
+
+# end of game
+print("game over")
+env.destroy()
