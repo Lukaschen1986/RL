@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 import pandas as pd
-from maze_env import Maze
+#from maze_env_2 import Maze
+from maze_env_2 import Maze
 
 #action_space = ['u', 'd', 'r', 'l']
+
+#env = Maze(unit=40, step=40, maze_h=4, maze_w=4)
 env = Maze()
 actions = list(range(env.n_actions)) # a list
 Q_table = pd.DataFrame(columns=actions, dtype=np.float64)
