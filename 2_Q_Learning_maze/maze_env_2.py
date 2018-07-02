@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# 巡逻者：随机游走
 import numpy as np
 import time
 import sys
@@ -15,7 +16,7 @@ maze_w = 4  # grid width
 obj_reward = 10
 hell_reward = -10
 guard_reward = -5
-walk_reword = -0.1
+walk_reword = -0.01
 
 
 class Maze(tk.Tk):
@@ -142,7 +143,7 @@ class Maze(tk.Tk):
         self.guard = self.canvas.create_oval(
             guard_center[0] - margin, guard_center[1] - margin,
             guard_center[0] + margin, guard_center[1] + margin,
-            fill='grey')
+            fill='blue')
         
         # pack all
         self.canvas.pack()
@@ -170,9 +171,9 @@ class Maze(tk.Tk):
         self.guard = self.canvas.create_oval(
             guard_center[0] - margin, guard_center[1] - margin,
             guard_center[0] + margin, guard_center[1] + margin,
-            fill='grey')
+            fill='blue')
         # return observation
-        return self.canvas.coords(self.agent), self.canvas.coords(self.guard)
+        return self.canvas.coords(self.agent)
 
     def step(self, action):
         # move agent
